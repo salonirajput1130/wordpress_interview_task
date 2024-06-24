@@ -60,7 +60,6 @@ function custom_book_meta_boxes() {
 }
 add_action( 'add_meta_boxes', 'custom_book_meta_boxes' );
 
-
 function custom_book_meta_box_html( $post ) {
     $author = get_post_meta( $post->ID, 'book_author', true );
     $year = get_post_meta( $post->ID, 'book_year', true );
@@ -170,10 +169,60 @@ function customize_admin_menu() {
 }
 add_action('admin_menu', 'customize_admin_menu');
 
+function add_book_columns($columns) {
+    unset($columns['date']);
+    $columns['book_author'] = 'Author Name';
+    $columns['book_year'] = 'Publication Year';
+    $columns['date'] = __('Date');
+    return $columns;
+}
+add_filter('manage_edit-book_columns', 'add_book_columns');
+
+function custom_book_column($column, $post_id) {
+    switch ($column) {
+        case 'book_author':
+            $book_author = get_post_meta($post_id, 'book_author', true);
+            echo $book_author;
+            break;
+        
+        case 'book_year':
+            $book_year = get_post_meta($post_id, 'book_year', true);
+            echo $book_year;
+            break;
+    }
+}
+add_action('manage_book_posts_custom_column', 'custom_book_column', 10, 2);
+
+function book_sortable_columns($columns) {
+    $columns['book_author'] = 'book_author';
+    $columns['book_year'] = 'book_year';
+    return $columns;
+}
+add_filter('manage_edit-book_sortable_columns', 'book_sortable_columns');
+
+function book_column_orderby($query) {
+    if (!is_admin()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+
+    if ('book_author' == $orderby) {
+        $query->set('meta_key', 'book_author');
+        $query->set('orderby', 'meta_value');
+    }
+
+    if ('publication_year' == $orderby) {
+        $query->set('meta_key', 'book_year');
+        $query->set('orderby', 'meta_value_num');
+    }
+}
+add_action('pre_get_posts', 'book_column_orderby');
+
+
 
 // Register custom columns
 function custom_book_columns($columns) {
-    // Check if the current post type is 'book'
     if (get_post_type() === 'book') {
         $columns['book_author'] = 'Author';
         $columns['book_year'] = 'Publisher';
@@ -181,14 +230,8 @@ function custom_book_columns($columns) {
 
     }
 
-
-    // Populate custom columns with data
 function custom_book_column_data($column, $post_id) {
-    // Check if the current post type is 'book'
-    if (get_post_type($post_id) === 'book') {
-
-       
-        
+    if (get_post_type($post_id) === 'book') {    
         switch ($column) {
             case 'book_author':
                 echo get_post_meta($post_id, 'book_author', true); 
@@ -196,12 +239,61 @@ function custom_book_column_data($column, $post_id) {
             case 'book_publisher':
                 echo get_post_meta($post_id, 'book_year', true); 
                 break;
+            case 'book_genre':
+                    echo get_post_meta($post_id, 'book_genre', true); 
+                    break;
         }
     }
 }
 add_action('manage_posts_custom_column', 'custom_book_column_data', 10, 2);
-
-
     return $columns;
 }
 add_filter('manage_posts_columns', 'custom_book_columns');
+
+
+
+// Task 4: Register REST API 
+function register_routes()
+    {
+        // List route
+        register_rest_route('plugin-control-center/v2', '/list-plugins', [
+            'methods' => 'GET',
+            'callback' => 'listPlugins',
+        ]);
+    }
+ add_action('rest_api_init', 'register_routes');
+
+function listPlugins()
+{
+    $data = [
+        'title' => "Title",
+        'author' => "Author",
+        'year' => "Year",
+        'genre' => "Genre",
+    ];
+
+    $args = array(
+        'post_type' => 'book',  
+        'posts_per_page' => -1, 
+    );
+
+    $books = get_posts($args);
+
+    if ($books) {
+        $book_list = array();
+        foreach ($books as $book) {
+            $book_list[] = array(
+                'title' => get_the_title($book->ID),
+                'author' => get_post_meta($book->ID, 'book_author', true),
+                'year' => get_post_meta($book->ID, 'book_year', true),
+                'genre' => get_post_meta($book->ID, 'book_genre', true),
+            );
+        }
+
+        $data['books'] = $book_list; 
+    }
+
+    return $data;
+}
+
+

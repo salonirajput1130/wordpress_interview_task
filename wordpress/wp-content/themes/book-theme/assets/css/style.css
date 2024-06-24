@@ -1,0 +1,172 @@
+/* Theme Style Sheet */
+
+/* Theme Name: Book Theme */
+/* Theme URI: 
+/* Author: Your Name */
+/* Author URI: 
+/* Description: Theme for display book details */
+/* Version: 1.0 */
+
+/* 
+ * Add your styles here
+ */
+ .book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.book-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: calc(33.333% - 40px);
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.book-thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-title {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.book-author,
+.book-publication-year,
+.book-genre {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+.book-description {
+    font-size: 0.9em;
+    margin: 10px 0 0;
+}
+
+/* Header Styles */
+
+* {
+    outline: none !important;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+
+  p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+ul li,
+ol li {
+  padding: 0;
+  margin: 0;
+}
+a,
+a:hover,
+a:focus,
+a:active {
+  outline: none !important;
+  text-decoration: none;
+}
+ul li,
+ol li {
+  list-style-type: none;
+}
+img {
+  display: block;
+}
+body {
+  margin: 0;
+  font-family: "Poppins";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #201e22;
+  background: #fff;
+}
+
+.header-main {
+    background-color: #000;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.header-main .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-main .nav-menu {
+   
+    justify-content: center;
+    flex-grow: 1;
+}
+.header-main .nav-menu ul{
+    display: flex;
+}
+.header-main .nav-menu a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+/* Footer Styles */
+.custom-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+.features .book-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three columns layout */
+    gap: 20px; /* Gap between grid items */
+    list-style-type: none; /* Remove default list styles */
+    padding: 0;
+    margin: 0;
+}
+
+.features .book-list li {
+    background-color: #f0f0f0; /* Optional: Background color for each row */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Box shadow for each item */
+}
+
+.features .book-list li h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.features .book-list li p {
+    margin: 5px 0;
+}
+
+.features .book-list li p strong {
+    margin-right: 5px;
+}
+
+section.hero-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+section.features-section {
+    padding-bottom: 50px;
+}
