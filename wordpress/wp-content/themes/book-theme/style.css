@@ -1,0 +1,49 @@
+/* Theme Style Sheet */
+
+/* Theme Name: Book Theme */
+/* Theme URI: 
+/* Author: Your Name */
+/* Author URI: 
+/* Description: Theme for display book details */
+/* Version: 1.0 */
+
+/* 
+ * Add your styles here
+ */
+ .book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.book-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: calc(33.333% - 40px);
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.book-thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-title {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.book-author,
+.book-publication-year,
+.book-genre {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+.book-description {
+    font-size: 0.9em;
+    margin: 10px 0 0;
+}
